@@ -1,35 +1,35 @@
-/* 
- * Auto Expanding Text Area (1.2.2)
- * by Chrys Bader (www.chrysbader.com)
- * chrysb@gmail.com
+/**
+ * Auto-Expanding Textarea (1.2.4)
  *
- * Version 1.2.3 update
- * by Richard Vallee
- * richardvallee@gmail.com
+ * This script is licensed under the GPL v2 (see LICENSE.txt).
  *
- * Special thanks to:
- * Jake Chapa - jake@hybridstudio.com
- * John Resig - jeresig@gmail.com
+ * Original author: Chrys Bader - chrysb@gmail.com
+ * Thanks to: Jake Chapa - jake@hybridstudio.com
+ * Thanks to: John Resig - jeresig@gmail.com
+ * 1.2.3 update by Richard Vallee - richardvallee@gmail.com
+ * Additional updates by Isaac Sukin - isaacsukin+github@gmail.com
  *
- * Copyright (c) 2008 Chrys Bader (www.chrysbader.com)
- * Licensed under the GPL (GPL-LICENSE.txt) license. 
+ * NOTE: This script requires jQuery to work.
+ * Download jQuery at http://jquery.com/
  *
- *
- * NOTE: This script requires jQuery to work.  Download jQuery at www.jquery.com
- *
+ * TODO:
+ * - The commit at http://j.mp/yKulHq has a couple of changes that aren't
+ *   integrated here and I'm not sure what they fix because the links to the
+ *   issues the commit message references are dead.
+ * - Fix a bunch of trailing whitespace and awkward style.
+ * - https://github.com/schtibe/jquery-autogrow/commits/master has some commits
+ *   that look interesting.
  */
- 
 (function(jQuery) {
-		  
+
 	var self = null;
- 
-	jQuery.fn.autogrow = function(o)
-	{	
+
+	jQuery.fn.autogrow = function(o) {
 		return this.each(function() {
 			new jQuery.autogrow(this, o);
 		});
 	};
-	
+
 
     /**
      * The autogrow object.
@@ -40,42 +40,40 @@
      * @param Hash o A set of key/value pairs to set as configuration properties.
      * @cat Plugins/autogrow
      */
-	
-	jQuery.autogrow = function (e, o)
-	{
+	jQuery.autogrow = function (e, o) {
 		this.options		  	= o || {};
-		this.dummy			  	= null;
+		this.dummy			= null;
 		this.interval	 	  	= null;
-		this.line_height	  	= this.options.lineHeight || parseInt(jQuery(e).css('line-height'));
-		this.min_height		  	= this.options.minHeight || parseInt(jQuery(e).css('min-height'));
-		this.max_height		  	= this.options.maxHeight || parseInt(jQuery(e).css('max-height'));;
+		this.line_height	  	= this.options.lineHeight || parseInt(jQuery(e).css('line-height'), 10);
+		this.min_height		  	= this.options.minHeight || parseInt(jQuery(e).css('min-height'), 10);
+		this.max_height		  	= this.options.maxHeight || parseInt(jQuery(e).css('max-height'), 10);
 		this.textarea		  	= jQuery(e);
 		this.expand_tolerance	= (!isNaN(this.options.expandTolerance) && this.options.expandTolerance > 0) ? this.options.expandTolerance : 4;
-		
+
 		if(isNaN(this.line_height))
 		  this.line_height = 0;
-		
+
 		// Only one textarea activated at a time, the one being used
 		this.init();
 	};
-	
+
 	jQuery.autogrow.fn = jQuery.autogrow.prototype = {
-    	autogrow: '1.2.3'
+		autogrow: '1.2.3'
   	};
-	
+
  	jQuery.autogrow.fn.extend = jQuery.autogrow.extend = jQuery.extend;
-	
+
 	jQuery.autogrow.fn.extend({
 		init: function() {			
 			var self = this;			
 			this.textarea.css({overflow: 'hidden', display: 'block'});
-			this.textarea.bind('focus', function() { self.startExpand() } ).bind('blur', function() { self.stopExpand() });
+			this.textarea.bind('focus', function() { self.startExpand(); } ).bind('blur', function() { self.stopExpand(); });
 			this.checkExpand();	
 		},
 						 
 		startExpand: function() {				
 		  var self = this;
-			this.interval = window.setInterval(function() {self.checkExpand()}, 400);
+			this.interval = window.setInterval(function() { self.checkExpand(); }, 400);
 		},
 		
 		stopExpand: function() {
@@ -94,7 +92,7 @@
 					'overflow-x' : 'hidden',
 					'position'   : 'absolute',
 					'top'        : 0,
-					'left'		 : -9999
+					'left'       : -9999
 					}).appendTo('body');
 			} else {
 				// If the dummy was already created, show it as it is hidden after expansion
